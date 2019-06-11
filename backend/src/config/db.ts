@@ -3,7 +3,10 @@ const Sequelize = require('sequelize');
 const connection = new Sequelize('birdietest', 'test-read', 'xnxPp6QfZbCYkY8', {
     host: 'birdie-test.cyosireearno.eu-west-2.rds.amazonaws.com',
     dialect: 'mysql',
-    port: 3306
+    port: 3306,
+    define: {
+        timestamps: false
+    }
 });
 
 connection
@@ -17,6 +20,7 @@ connection
 
 
 interface dbInstance {
+    [x: string]: any;
     Sequelize: any,
     instance: any
 }
@@ -26,6 +30,6 @@ const dbInstance : dbInstance = {
     instance: connection
 };
 
-dbInstance.instance.events = require('../model/event')(Sequelize, connection);
+dbInstance.events = require('../model/event')(Sequelize, connection);
 
 export const db = dbInstance;
