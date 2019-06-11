@@ -2,7 +2,7 @@ module.exports = (Sequelize: any, instance: any) => {
 
     const Event = instance.define('events', {
         payload: {
-            type: Sequelize.TEXT,
+            type: Sequelize.JSON,
             allowNull: false,
             default: null
         },
@@ -18,6 +18,6 @@ module.exports = (Sequelize: any, instance: any) => {
         event_type: Sequelize.STRING(50),
         care_recipient_id: Sequelize.UUID
     });
-    
+
     return Event;
 }
