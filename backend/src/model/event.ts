@@ -18,5 +18,6 @@ module.exports = (Sequelize: any, instance: any) => {
         event_type: Sequelize.STRING(50),
         care_recipient_id: Sequelize.UUID
     });
+    
     return Event;
 }

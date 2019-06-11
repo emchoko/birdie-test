@@ -25,5 +25,7 @@ const dbInstance : dbInstance = {
     Sequelize: Sequelize,
     instance: connection
 };
-//TODO: put event instance in the db
+
+dbInstance.instance.events = require('../model/event')(Sequelize, connection);
+
 export const db = dbInstance;
