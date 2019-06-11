@@ -1,6 +1,5 @@
 import * as express from "express";
 const db = require('../config/db').db;
-// const Sequelize = dbInstance.Sequelize;
 export const pingController = express.Router();
 
 pingController.get('/hello', (_, res) => {
@@ -24,16 +23,21 @@ pingController.get('/recipient', (_, res, next) => {
     });
 });
 
+const Op = db.Sequelize.Op;
 
 /**
  * Retrieve care recipient events for particular day
  */
 pingController.get('/recipient/:recipient_id', (req, res, next) => {
+  console.log(`startDate = ${req.query.startDate}`);
+  
   db.events.findAll({
+    attributes: ['timestamp', 'event_type', 'payload'],
     where: {
-      recipient_id: req.params.recipient_id,
+      care_recipient_id: req.params.recipient_id,
       timestamp: {
-        $between: [req.query.startDate, req.query.endDate]
+        [Op.gt]: new Date(req.query.startDate),
+        [Op.lt]: new Date(req.query.endDate)
       }
     }
   })

@@ -13,7 +13,7 @@ module.exports = (Sequelize: any, instance: any) => {
         payload_as_text: Sequelize.TEXT,
         rejected_event_id: Sequelize.STRING(255),
         observation_event_id: Sequelize.STRING(255),
-        timestamp: Sequelize.STRING(50),
+        timestamp: Sequelize.DATE,
         id: {
             type: Sequelize.UUID,
             primaryKey: true
