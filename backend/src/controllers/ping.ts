@@ -11,11 +11,9 @@ pingController.get('/hello', (_, res) => {
 
 // Code for Birdie test begins here
 
-//Gets all the unique recipients from the database 
+// Retrieve all the unique recipients from the database 
 pingController.get('/recipient', (_, res) => {
-  db.events.findAll({
-    attributes: { include: [[db.Sequelize.fn('COUNT', db.Sequelize.col('id')), 'count_ids']] }
-  })
+  db.events.aggregate('care_recipient_id', 'DISTINCT', {plain: false})
   .then((dbResult: any) => {
     res.json(dbResult);
   })
@@ -23,3 +21,4 @@ pingController.get('/recipient', (_, res) => {
     return res.json(err);
   });
 });
+
