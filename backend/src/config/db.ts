@@ -21,9 +21,9 @@ interface dbInstance {
     instance: any
 }
 
-const db : dbInstance = {
+const dbInstance : dbInstance = {
     Sequelize: Sequelize,
     instance: connection
 };
 //TODO: put event instance in the db
-module.exports = db;
+export const db = dbInstance;
