@@ -11,14 +11,36 @@ pingController.get('/hello', (_, res) => {
 
 // Code for Birdie test begins here
 
-// Retrieve all the unique recipients from the database 
-pingController.get('/recipient', (_, res) => {
-  db.events.aggregate('care_recipient_id', 'DISTINCT', {plain: false})
-  .then((dbResult: any) => {
-    res.json(dbResult);
-  })
-  .catch((err: any) => {
-    return res.json(err);
-  });
+/**
+ * Retrieves all the unique recipients from the database 
+ */
+pingController.get('/recipient', (_, res, next) => {
+  db.events.aggregate('care_recipient_id', 'DISTINCT', { plain: false })
+    .then((dbResult: any) => {
+      res.json(dbResult);
+    })
+    .catch((err: any) => {
+      next(err);
+    });
 });
 
+
+/**
+ * Retrieve care recipient events for particular day
+ */
+pingController.get('/recipient/:recipient_id', (req, res, next) => {
+  db.events.findAll({
+    where: {
+      recipient_id: req.params.recipient_id,
+      timestamp: {
+        $between: [req.query.startDate, req.query.endDate]
+      }
+    }
+  })
+  .then((dbResult: any) => {
+    res.status(200).json(dbResult);
+  })
+  .catch((err: any) => {
+    next(err);
+  });
+});
