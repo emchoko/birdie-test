@@ -10,7 +10,7 @@ const DropdownList = (props: DropdownListProps) => {
     return (
         <DropdownButton id="dropdown-basic-button" title="Dropdown button">
             {props.recipients.map((recipient: any, index: number) => {
-                return <Dropdown.Item key={index}>{recipient.id}</Dropdown.Item>;
+                return <Dropdown.Item key={index}>{recipient.DISTINCT}</Dropdown.Item>;
             })}
         </DropdownButton>
     );
