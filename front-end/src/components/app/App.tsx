@@ -5,6 +5,7 @@ import { RootState } from '@App/store/reducers';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
 import Calendar from 'react-calendar';
+import { Table } from 'react-bootstrap';
 
 import Logo from '@App/components/Logo';
 import DropdownList from '@App/components/DropdownList';
@@ -42,6 +43,21 @@ const AppContainer = styled.div`
   flex-direction: column;
 `;
 
+const SelectedRecipient = (props: any) => {
+  return <p>Selected recepient: {props.recipient}</p>;
+};
+
+const EventSection = (props: any) => {
+  return (
+    <Table striped bordered hover variant="dark">
+      <thead>
+        <th>Time of the event</th>
+        <th>Event</th>
+      </thead>
+    </Table>
+  );
+};
+
 class App extends React.Component<AppProps, AppState> {
 
   public constructor(props: AppProps) {
@@ -49,7 +65,7 @@ class App extends React.Component<AppProps, AppState> {
     this.dropdownHandler = this.dropdownHandler.bind(this);
     this.state = {
       recipients: [],
-      listValue: '',
+      listValue: 'not selected yet',
       date: new Date(),
     };
   }
@@ -70,19 +86,25 @@ class App extends React.Component<AppProps, AppState> {
             changeHandler={this.dropdownHandler}
             listValue={this.state.listValue}
           />
+
+          <SelectedRecipient recipient={this.state.listValue} />
+          
           <Calendar
             onChange={this.calendarChange}
             value={this.state.date}
           />
+
+          <EventSection />
         </AppContainer>
       </>
     );
   }
 
   private calendarChange = (date: Date) => {
+    console.log(`date selected: ${date}`);
     this.setState({ date });
   }
-  
+
   private dropdownHandler = (eventKey: any, _: any) => {
     this.setState({ listValue: eventKey });
   }
