@@ -13,11 +13,9 @@ class Fetcher {
         const fetchURL = API_URL + '/recipient';
         const request = new Request(fetchURL, options);
         const response = await fetch(request);
-
-        console.log(response.json());
-
+        
         if (response.status === 200) {
-            return response.json();
+            return await response.json();
         }
         return null;
     }

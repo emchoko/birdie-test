@@ -4,11 +4,13 @@ import { DropdownButton, Dropdown } from 'react-bootstrap';
 
 interface DropdownListProps {
     recipients: Array<any>;
+    changeHandler: any;
+    listValue: string;
 }
 
 const DropdownList = (props: DropdownListProps) => {
     return (
-        <DropdownButton id="dropdown-basic-button" title="Dropdown button">
+        <DropdownButton id="dropdown-basic-button" title="Select Recipient" onChange={props.changeHandler} value={props.listValue}>
             {props.recipients.map((recipient: any, index: number) => {
                 return <Dropdown.Item key={index}>{recipient.DISTINCT}</Dropdown.Item>;
             })}
@@ -18,6 +20,8 @@ const DropdownList = (props: DropdownListProps) => {
 
 DropdownList.propTypes = {
     recipients: PropTypes.array.isRequired,
+    changeHandler: PropTypes.func.isRequired,
+    listValue: PropTypes.string.isRequired,
 };
 
 export default DropdownList;

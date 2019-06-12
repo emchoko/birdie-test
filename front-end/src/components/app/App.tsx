@@ -58,7 +58,7 @@ class App extends React.Component<AppProps, AppState> {
         <GlobalStyle />
         <AppContainer>
           <Logo src={LogoUrl} />
-          <DropdownList recipients={this.state.recipients} />
+          <DropdownList recipients={this.state.recipients} changeHandler={this.dropdownHandler} />
         </AppContainer>
       </>
     );
@@ -71,6 +71,10 @@ class App extends React.Component<AppProps, AppState> {
     } else {
       this.setState({ recipients: body });
     }
+  }
+
+  private dropdownHandler = (e: any) => {
+    console.log(`value of the event: ${e.target.value}`);
   }
 }
 
