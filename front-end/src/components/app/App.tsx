@@ -8,6 +8,8 @@ import { Dispatch } from 'redux';
 import Logo from '@App/components/Logo';
 import DropdownList from '@App/components/DropdownList';
 
+import Fetcher from '../../util/Fetcher';
+
 const LogoUrl = require('../../assets/images/logo-birdie.svg');
 
 interface AppProps {
@@ -38,14 +40,16 @@ const AppContainer = styled.div`
 `;
 
 class App extends React.Component<AppProps, AppState> {
+  public state = {
+    recipients: []
+  };
+
   public constructor(props: AppProps) {
     super(props);
   }
 
-  state: any = {};
-
   componentWillMount() {
-    
+    this.fetchRecipients();
   }
 
   public render() {
@@ -54,10 +58,19 @@ class App extends React.Component<AppProps, AppState> {
         <GlobalStyle />
         <AppContainer>
           <Logo src={LogoUrl} />
-          <DropdownList />
+          <DropdownList recipients={this.state.recipients} />
         </AppContainer>
       </>
     );
+  }
+
+  private async fetchRecipients() {
+    const body = await Fetcher.getRecipients();
+    if (body == null) {
+      alert('There was problem fetching the recipients! Please refresh!');
+    } else {
+      this.setState({ recipients: body });
+    }
   }
 }
 

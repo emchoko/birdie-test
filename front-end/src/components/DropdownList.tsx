@@ -1,14 +1,23 @@
 import * as React from 'react';
+import * as PropTypes from 'prop-types';
 import { DropdownButton, Dropdown } from 'react-bootstrap';
 
-const DropdownList = () => {
+interface DropdownListProps {
+    recipients: Array<any>;
+}
+
+const DropdownList = (props: DropdownListProps) => {
     return (
         <DropdownButton id="dropdown-basic-button" title="Dropdown button">
-            <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-            <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+            {props.recipients.map((recipient: any, index: number) => {
+                return <Dropdown.Item key={index}>{recipient.id}</Dropdown.Item>;
+            })}
         </DropdownButton>
     );
+};
+
+DropdownList.propTypes = {
+    recipients: PropTypes.array.isRequired,
 };
 
 export default DropdownList;
