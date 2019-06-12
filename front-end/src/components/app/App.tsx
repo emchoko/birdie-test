@@ -4,6 +4,7 @@ import styled, { createGlobalStyle } from 'styled-components';
 import { RootState } from '@App/store/reducers';
 import { connect } from 'react-redux';
 import { Dispatch } from 'redux';
+import Calendar from 'react-calendar';
 
 import Logo from '@App/components/Logo';
 import DropdownList from '@App/components/DropdownList';
@@ -17,7 +18,9 @@ interface AppProps {
 }
 
 interface AppState {
-
+  recipients: Array<any>;
+  listValue: string;
+  date: Date;
 }
 
 const GlobalStyle = createGlobalStyle`
@@ -40,14 +43,18 @@ const AppContainer = styled.div`
 `;
 
 class App extends React.Component<AppProps, AppState> {
-  public state = {
-    recipients: []
-  };
 
   public constructor(props: AppProps) {
     super(props);
+    this.dropdownHandler = this.dropdownHandler.bind(this);
+    this.state = {
+      recipients: [],
+      listValue: '',
+      date: new Date(),
+    };
   }
 
+  // Lifecycle methods
   componentWillMount() {
     this.fetchRecipients();
   }
@@ -58,10 +65,26 @@ class App extends React.Component<AppProps, AppState> {
         <GlobalStyle />
         <AppContainer>
           <Logo src={LogoUrl} />
-          <DropdownList recipients={this.state.recipients} changeHandler={this.dropdownHandler} />
+          <DropdownList
+            recipients={this.state.recipients}
+            changeHandler={this.dropdownHandler}
+            listValue={this.state.listValue}
+          />
+          <Calendar
+            onChange={this.calendarChange}
+            value={this.state.date}
+          />
         </AppContainer>
       </>
     );
+  }
+
+  private calendarChange = (date: Date) => {
+    this.setState({ date });
+  }
+  
+  private dropdownHandler = (eventKey: any, _: any) => {
+    this.setState({ listValue: eventKey });
   }
 
   private async fetchRecipients() {
@@ -71,10 +94,6 @@ class App extends React.Component<AppProps, AppState> {
     } else {
       this.setState({ recipients: body });
     }
-  }
-
-  private dropdownHandler = (e: any) => {
-    console.log(`value of the event: ${e.target.value}`);
   }
 }
 

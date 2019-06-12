@@ -10,9 +10,19 @@ interface DropdownListProps {
 
 const DropdownList = (props: DropdownListProps) => {
     return (
-        <DropdownButton id="dropdown-basic-button" title="Select Recipient" onChange={props.changeHandler} value={props.listValue}>
+        <DropdownButton
+            id="dropdown-basic-button"
+            title="Select Recipient"
+            onSelect={props.changeHandler}
+        >
             {props.recipients.map((recipient: any, index: number) => {
-                return <Dropdown.Item key={index}>{recipient.DISTINCT}</Dropdown.Item>;
+                return (
+                    <Dropdown.Item
+                        key={index}
+                        eventKey={recipient.DISTINCT}
+                    >
+                        {recipient.DISTINCT}
+                    </Dropdown.Item>);
             })}
         </DropdownButton>
     );
