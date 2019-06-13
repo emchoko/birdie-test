@@ -9,7 +9,8 @@
   "main": "lib/index",
   "types": "lib/index",
   "scripts": {
-    "start": "node index.js",
+    "start": "node src/index.js",
+    "postinstall": "tsc",
     "clean": "rimraf lib && rimraf coverage",
     "format": "prettier --write \"{src,__tests__}/**/*.ts\" --single-quote --trailing-comma es5",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
